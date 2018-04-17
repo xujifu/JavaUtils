@@ -30,6 +30,29 @@ public class LocalFileReader {
 	
 	public static Logger logger = Logger.getLogger(LocalFileReader.class);
 	
+	    /**
+	     * 将内容写入本地文件
+	     * @param filename
+	     * @param content
+	     */
+	    public void WriteFile(String filename, String content) {
+		try (BufferedWriter bw = new BufferedWriter(
+		    new OutputStreamWriter(new FileOutputStream(filename), "UTF-8"))) {
+		    if (filename == null || filename.equals("")) {
+			logger.info("filename is empty");
+			return;
+		    }
+		    File file = new File(filename);
+		    if (!file.exists() || file.isDirectory()) {
+			logger.info(filename + " file is not exists!");
+		    }
+		    bw.write(content);
+		    bw.flush();
+		    bw.close();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	    }
 	/**
 	 * 读取本地文件，将文件内容返回
 	 * @param filename
